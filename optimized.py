@@ -2,7 +2,7 @@ import csv
 import time
 
 
-def read_actions(file_path):
+def read_csv(file_path):
     """
     :param file_path:
     :return: list of dictionaries of shares with their name, cost and profit
@@ -25,7 +25,7 @@ def knapsack(values, weights, capacity):
     :param values:
     :param weights:
     :param capacity:
-    :return:
+    :return:list of actions with the best profit
     """
     n = len(values)
     capacity = int(capacity)
@@ -50,6 +50,11 @@ def knapsack(values, weights, capacity):
 
 
 def find_best_combination(actions, max_budget):
+    """
+    :param actions:
+    :param max_budget:
+    :return: the best profit and the best combination for this best profit
+    """
     costs = [action['cost'] for action in actions]
     profits = [action['cost'] * action['profit'] for action in actions]
 
@@ -65,7 +70,7 @@ def main():
 
     start_time = time.time()
 
-    actions = read_actions(file_path)
+    actions = read_csv(file_path)
     best_combination, best_profit = find_best_combination(actions, max_budget)
 
     end_time = time.time()

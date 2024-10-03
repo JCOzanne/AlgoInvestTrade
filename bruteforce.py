@@ -31,19 +31,20 @@ def find_best_combination(shares, max_budget):
     """
     :param shares:
     :param max_budget:
-    :return: the best profit and the best combination for this best rofit
+    :return: the best profit and the best combination for this best profit
     """
     best_combination = None
     best_profit = 0
-
-    for r in range(1, len(shares) + 1):
-        for combination in combinations(shares, r):
+    compteur = 0
+    for i in range(1, len(shares) + 1):
+        for combination in combinations(shares, i):
+            compteur +=1
             total_cost, total_profit = calculate_profit(combination)
             if total_cost <= max_budget and total_profit > best_profit:
                 best_combination = combination
                 best_profit = total_profit
 
-    return best_combination, best_profit
+    return best_combination, best_profit, compteur
 
 def main():
     max_budget = 500
@@ -51,7 +52,7 @@ def main():
     start_time = time.time()
 
     shares = read_csv()
-    best_combination, best_profit = find_best_combination(shares, max_budget)
+    best_combination, best_profit, compteur = find_best_combination(shares, max_budget)
 
     print("Meilleure combinaison d'actions :")
     for share in best_combination:
@@ -59,12 +60,12 @@ def main():
 
     total_cost = sum(share['cost'] for share in best_combination)
     print(f"\nCoût total : {total_cost:.2f}€")
-    print(f"Profit total après 2 ans : {best_profit:.2f}€")
+    print(f"Bénéfice total après 2 ans : {best_profit:.2f}€")
     print(f"Rendement : {(best_profit/total_cost)*100:.2f}%")
-
+    print(f"\nLe nombre de combinaisons testées est de : {compteur}")
     end_time = time.time()
     execution_time = end_time-start_time
-    print(f"\nTemps d'exécution : {execution_time:.4f} secondes")
+    print(f"\nTemps d'exécution : {execution_time:.2f} secondes")
 
 if __name__ == "__main__":
     main()
