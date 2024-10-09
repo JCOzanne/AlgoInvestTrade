@@ -1,11 +1,12 @@
 import csv
 import time
+import argparse
 
 def read_csv(file_path):
     """
-    :param file_path:
-    :return: a list of shares sorted by profit/cost ratio in descending order
-    """
+   :param file_path:
+   :return: a list of shares sorted by profit/cost ratio in descending order
+   """
     actions = []
     with open(file_path, newline='', encoding='utf-8') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -72,8 +73,7 @@ def find_best_combination(actions, max_budget):
     best_combination = [actions[i] for i in selected_indices]
     return best_combination, max_profit
 
-def main():
-    file_path = 'data/dataset_brute_force.csv'
+def main(file_path):
     max_budget = 500
 
     start_time = time.time()
@@ -96,4 +96,10 @@ def main():
     print(f"\nTemps d'exécution : {execution_time:.2f} secondes")
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser(description="Optimiser l'achat d'actions en fonction de leur prix et rendement.")
+    parser.add_argument('file', type=str, help="Le nom du fichier CSV à analyser (sans l'extension .csv).")
+
+    args = parser.parse_args()
+    file_path = f'data/{args.file}.csv'
+
+    main(file_path)
