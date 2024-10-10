@@ -44,6 +44,7 @@ Il affiche le temps d'exécution.
 3. Lancer le programme  
 - sur windows :  
 `python bruteforce.py (ou optimized.py)  nom_du_fichier`  
+exemple : `python optimized.py dataset1`
 - sur Mac OS / Linux :  
 `python3 bruteforce.py (ou optimized.py)  nom_du_fichier`
 
