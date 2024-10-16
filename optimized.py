@@ -2,10 +2,19 @@ import csv
 import time
 import argparse
 
-def read_csv(file_path):
+def read_csv(file_path: str) -> list[dict]:
     """
-   :param file_path:
-   :return: a list of shares sorted by profit/cost ratio in descending order
+    Read share data from a CSV file and return a sorted list of shares by profit/cost ratio.
+
+    Args:
+        file_path (str): Path to the CSV file containing share data
+
+    Returns:
+        list[dict]: List of dictionaries containing share information, sorted by profit/cost ratio
+                    in descending order. Each dictionary contains:
+                    - 'name' (str): Share name
+                    - 'cost' (float): Share cost in euros
+                    - 'profit' (float): Share profit as decimal
    """
     actions = []
     with open(file_path, newline='', encoding='utf-8') as csvfile:
@@ -29,12 +38,20 @@ def read_csv(file_path):
                 actions.append(action)
     return sorted(actions, key=lambda x: x['profit'] / x['cost'], reverse=True)
 
-def knapsack(values, weights, capacity):
+def knapsack(values: list[float], weights: list[float], capacity: float) -> tuple[float, list[int]]:
     """
-    :param values:
-    :param weights:
-    :param capacity:
-    :return: the list of share's index making the best profit and this best profit according to the "knapsack" method
+    Solve the knapsack problem to find the optimal combination of items within a weight capacity.
+    Uses dynamic programming to find the maximum value possible while respecting the weight constraint.
+
+    Args:
+        values (list[float]): List of values (profits) for each item
+        weights (list[float]): List of weights (costs) for each item
+        capacity (float): Maximum weight capacity (budget)
+
+    Returns:
+        tuple[float, list[int]]: A tuple containing:
+            - float: Maximum value (profit) achievable
+            - list[int]: List of indices of selected items in the optimal solution
     """
     n = len(values)
     capacity = int(capacity)
@@ -59,11 +76,23 @@ def knapsack(values, weights, capacity):
 
     return dp[n][capacity], selected
 
-def find_best_combination(actions, max_budget):
+
+def find_best_combination(actions: list[dict], max_budget: float) -> tuple[list[dict], float]:
     """
-    :param actions:
-    :param max_budget:
-    :return:the best profit and the list of shares achieving this best profit
+    Find the optimal combination of shares that maximizes profit within the budget constraint
+    using the knapsack algorithm.
+
+    Args:
+        actions (list[dict]): List of dictionaries containing share information
+                             Each dict must have keys:
+                             - 'cost' (float): Share cost
+                             - 'profit' (float): Share profit as decimal
+        max_budget (float): Maximum budget available for investment
+
+    Returns:
+        tuple[list[dict], float]: A tuple containing:
+            - list[dict]: List of selected shares in the optimal combination
+            - float: Maximum profit achievable with this combination
     """
     costs = [action['cost'] for action in actions]
     profits = [action['cost'] * action['profit'] for action in actions]

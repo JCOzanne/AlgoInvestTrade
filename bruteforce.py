@@ -4,7 +4,14 @@ import time
 
 def read_csv():
     """
-    :return: list of dictionaries of shares with their name, cost and profit
+    Read share data from a CSV file and convert it to a list of dictionaries.
+
+    Returns:
+        list[dict]: List of dictionaries containing share information
+                    Each dictionary has keys:
+                    - 'name' (str): Share name
+                    - 'cost' (float): Share cost in euros
+                    - 'profit' (float): Share profit as a decimal (e.g., 0.15 for 15%)
     """
     shares = []
     with open('data/dataset_brute_force.csv', newline='', encoding='utf-8') as csvfile:
@@ -18,8 +25,9 @@ def read_csv():
             shares.append(share)
     return shares
 
-def calculate_profit(combination):
+def calculate_profit(combination : list[dict])-> tuple[float, float]:
     """
+    Calculate the total cost and total profit for a combination of shares provided in input
     :param combination:
     :return: total cost and total profit for each combination of shares
     """
@@ -27,11 +35,15 @@ def calculate_profit(combination):
     total_profit = sum(action['cost'] * action['profit'] for action in combination)
     return total_cost, total_profit
 
-def find_best_combination(shares, max_budget):
+def find_best_combination(shares : list, max_budget : int) -> tuple[list[dict], float, int]:
     """
-    :param shares:
-    :param max_budget:
-    :return: the best profit and the best combination for this best profit
+    Find the combination of shares that yields the highest profit within the budget constraint.
+    :param shares (list[dict]): List of all available shares Each dict contains 'name', 'cost', and 'profit' keys:
+    :param max_budget (float): Maximum amount that can be spent on shares
+    :return: tuple[list[dict], float, int]: A tuple containing:
+            - best_combination (list[dict]): List of dictionaries representing the best combination of shares
+            - best_profit (float): Total profit of the best combination
+            - compteur (int): Number of combinations tested
     """
     best_combination = None
     best_profit = 0
